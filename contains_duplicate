@@ -1,0 +1,42 @@
+def merge_sort(nums):
+    n = len(nums)
+    if n == 1:
+        return nums
+
+    half = n // 2
+    left = merge_sort(nums[0: half])
+    right = merge_sort(nums[half: n])
+
+    # If function found duplicate at any point return true
+    if left == True or right == True:
+        return True
+
+    # They keep track of curent position in lists left: l and right: r
+    l, r = 0, 0
+
+    for i in range(n):
+        # If any two numbers are equal no point in sorting further
+        if left[l] == right[r]:
+            return True
+
+        elif left[l] < right[r]:
+            nums[i] = left[l]
+            l += 1
+
+            # If index would go out of range add other list to nums
+            if l == half:
+                nums[i + 1:] = []
+                nums = nums + right[r:]
+                break
+            
+        else:
+            nums[i] = right[r]
+            r += 1
+
+            # If index would go out of range add other list to nums
+            if r == n - half:
+                nums[i + 1:] = []
+                nums = nums + left[l:]
+                break
+
+    return nums
